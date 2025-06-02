@@ -24,3 +24,29 @@
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 } */
+/* src/app/globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  direction: rtl;
+}
+.swiper {
+  --swiper-navigation-color: theme('colors.teal.600'); /* رنگ اصلی دکمه‌ها */
+  /* --swiper-navigation-size: 24px; */ /* اگر می‌خواهید اندازه آیکون‌ها را هم تغییر دهید، این خط را از کامنت خارج کنید و مقدار دلخواه را بدهید */
+}
+/* استایل‌های سفارشی برای دکمه‌های ناوبری Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+  color: theme('colors.teal.600'); /* استفاده از رنگ teal-600 تیل‌ویند */
+}
+
+/* می‌توانید برای حالت هاور و فوکوس هم رنگ متفاوتی تعریف کنید */
+.swiper-button-next:hover,
+.swiper-button-prev:hover,
+.swiper-button-next:focus-visible, /* برای دسترسی‌پذیری با کیبورد */
+.swiper-button-prev:focus-visible {
+  color: theme('colors.teal.700'); /* کمی تیره‌تر در حالت هاور/فوکوس */
+}
