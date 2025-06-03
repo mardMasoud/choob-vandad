@@ -1,16 +1,19 @@
 // src/app/page.tsx
-'use client'; // اگر از قبل وجود دارد، نگه دارید
+'use client';
 
-// ایمپورت‌های Swiper و Image و Link دیگر در اینجا لازم نیستند، چون به HeroSlider منتقل شده‌اند.
+// وارد کردن کامپوننت‌های اصلی بخش‌های صفحه
+import HeroSlider from '@/components/HeroSlider';
+import IntroAndAdvantagesSection from '@/components/IntroAndAdvantagesSection';
+import ProductsSection from '@/components/ProductsSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
-// کامپوننت AdvantageCard و آیکون‌های آن همچنان اینجا هستند
-import AdvantageCard from '@/components/AdvantageCard';
+// وارد کردن آیکون‌ها فقط برای داده‌هایی که در همین فایل تعریف می‌شوند (advantagesData)
 import { ShieldCheck, LayoutGrid, Users, Truck } from 'lucide-react';
 
-// ۱. وارد کردن کامپوننت HeroSlider
-import HeroSlider from '@/components/HeroSlider';
+// --- داده‌های صفحه ---
+// در یک پروژه واقعی و بزرگ، بهتر است این داده‌ها از یک API خوانده شوند
+// یا حداقل در فایل‌های جداگانه در پوشه src/data قرار گیرند.
 
-// ۲. آرایه images همچنان در اینجا تعریف می‌شود (یا می‌تواند از یک فایل داده جداگانه بیاید)
 const images = [
   { src: '/image/hero/hero-slide-1.jpg', alt: 'اسلاید اول چوب ونداد', title: 'تخصص در بهترین نوع چوب', description: 'محصولات ما با دقت و از بهترین مواد اولیه تهیه می‌شوند.', buttonText: 'مشاهده محصولات', buttonLink: '/products' },
   { src: '/image/hero/hero-slide-2.jpg', alt: 'اسلاید دوم چوب ونداد', title: 'طراحی مدرن، کیفیت بی‌نظیر', description: 'با چوب ونداد، زیبایی و دوام را به خانه خود بیاورید.', buttonText: 'پروژه‌های ما', buttonLink: '/projects' },
@@ -26,33 +29,31 @@ const advantagesData = [
   { icon: Truck, title: 'ارسال سریع', description: 'تضمین ارسال به موقع و مطمئن سفارشات شما به سراسر کشور.' },
 ];
 
+const productsData = [
+  { imageSrc: '/image/products/1.jpg', name: 'محصول چوبی شماره ۱', price: 'تماس بگیرید', productLink: '/products/product-1', description: 'توضیح کوتاه برای محصول شماره ۱ که ویژگی‌های اصلی آن را بیان می‌کند.', stockQuantity: 10 },
+  { imageSrc: '/image/products/2.jpg', name: 'محصول چوبی شماره ۲', price: '۱,۵۰۰,۰۰۰ تومان', productLink: '/products/product-2', description: 'این محصول با بهترین چوب گردو ساخته شده و مناسب فضاهای کلاسیک است.', stockQuantity: 5 },
+  { imageSrc: '/image/products/3.jpg', name: 'محصول چوبی شماره ۳', price: '۹۵۰,۰۰۰ تومان', productLink: '/products/product-3', description: 'یک انتخاب اقتصادی و با دوام برای پروژه‌های ساختمانی.', stockQuantity: 0 },
+  { imageSrc: '/image/products/4.jpg', name: 'محصول چوبی شماره ۴', price: '۲,۲۰۰,۰۰۰ تومان', productLink: '/products/product-4', description: 'طراحی منحصربه‌فرد با ترکیب چوب و فلز، ایده‌آل برای دکوراسیون مدرن.', stockQuantity: 12 },
+  { imageSrc: '/image/products/5.jpg', name: 'محصول چوبی شماره ۵', price: '۷۸۰,۰۰۰ تومان', productLink: '/products/product-5', description: 'مناسب برای استفاده در فضای باز، مقاوم در برابر رطوبت و نور خورشید.', stockQuantity: 8 },
+  { imageSrc: '/image/products/6.jpg', name: 'محصول چوبی شماره ۶', price: '۳,۱۰۰,۰۰۰ تومان', productLink: '/products/product-6', description: 'محصولی لوکس با جزئیات دقیق و ساخت بی‌نظیر برای افراد خاص‌پسند.', stockQuantity: 3 },
+  { imageSrc: '/image/products/7.jpg', name: 'محصول چوبی شماره ۷', price: '۱,۲۵۰,۰۰۰ تومان', productLink: '/products/product-7', description: 'کاربردی و زیبا، مناسب برای هدیه دادن و استفاده روزمره.', stockQuantity: 20 },
+  { imageSrc: '/image/products/8.jpg', name: 'محصول چوبی شماره ۸', price: '۴,۵۰۰,۰۰۰ تومان', productLink: '/products/product-8', description: 'یک سرمایه‌گذاری برای زیبایی و دوام، ساخته شده از چوب کمیاب.', stockQuantity: 2 },
+];
+
+const testimonialsData = [
+  { avatarSrc: '/image/avatars/1.jpg', name: 'مشتری ۱ - رضا احمدی', testimonial: 'کیفیت محصولات چوب ونداد بی‌نظیر است! واقعاً از خریدم راضی هستم و به همه پیشنهاد می‌کنم.' },
+  { avatarSrc: '/image/avatars/2.jpg', name: 'مشتری ۲ - سارا محمدی', testimonial: 'مشاوره تخصصی که دریافت کردم خیلی در انتخابم کمکم کرد. ممنون از تیم حرفه‌ای شما.' },
+  { avatarSrc: '/image/avatars/3.jpg', name: 'مشتری ۳ - شرکت ساختمانی نوین', testimonial: 'برای پروژه جدیدمان تمام چوب مورد نیاز را از ونداد تهیه کردیم. ارسال سریع و کیفیت بالا از ویژگی‌های بارزشان بود.' },
+];
+
 export default function Home() {
   return (
     <main>
-      {/* ۳. استفاده از کامپوننت HeroSlider و پاس دادن پراپ images */}
       <HeroSlider images={images} />
-
-      {/* بخش معرفی و مزایای کلیدی (بدون تغییر) */}
-      <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">
-            چوب ونداد، انتخابی هوشمندانه برای پروژه‌های شما
-          </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
-            ما در چوب ونداد با سال‌ها تجربه در زمینه تامین و توزیع انواع فرآورده‌های چوبی، متعهد به ارائه محصولات باکیفیت و خدمات متمایز به مشتریان خود هستیم. هدف ما جلب رضایت شما از طریق ارائه مشاوره تخصصی و بهترین قیمت‌ها در بازار است.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {advantagesData.map((advantage, index) => (
-              <AdvantageCard
-                key={index}
-                icon={advantage.icon}
-                title={advantage.title}
-                description={advantage.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      <IntroAndAdvantagesSection advantages={advantagesData} />
+      <ProductsSection products={productsData} />
+      <TestimonialsSection testimonials={testimonialsData} />
+      {/* در آینده بخش‌های دیگری مانند فوتر و ... می‌توانند در اینجا اضافه شوند */}
     </main>
   );
 }
