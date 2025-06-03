@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 // آیکون‌های جدید برای موجودی و قیمت
-import { PackageCheck, Tag, ShoppingCart } from 'lucide-react';
+import { PackageCheck, Tag} from 'lucide-react';
 
 interface ProductCardProps {
   imageSrc: string;

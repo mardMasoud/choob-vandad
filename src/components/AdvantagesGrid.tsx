@@ -1,7 +1,7 @@
 // src/components/AdvantagesGrid.tsx
 import React from 'react';
 import AdvantageCard from '@/components/AdvantageCard'; // کامپوننت کارت مزیت
-import { LucideProps, ShieldCheck, LayoutGrid, Users, Truck } from 'lucide-react'; // آیکون‌ها
+import { LucideProps} from 'lucide-react'; // آیکون‌ها
 
 // تعریف نوع برای داده‌های مزایا
 interface Advantage {
