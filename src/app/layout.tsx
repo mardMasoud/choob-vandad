@@ -1,7 +1,9 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header"; // ۱. ایمپورت کردن هدر
+import Header from "@/components/Header";
+import Footer from "@/components/Footer"; // ۱. وارد کردن کامپوننت Footer
 
 const vazir = Vazirmatn({ subsets: ["arabic"] });
 
@@ -16,11 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl">
-      <body className={vazir.className}>
-        <Header /> {/* ۲. قرار دادن هدر در اینجا */}
-        <main>{children}</main>
-        {/* می‌توانیم فوتر را هم بعداً به اینجا اضافه کنیم */}
+    <html
+      lang="fa"
+      dir="rtl"
+    >
+      <body className={`${vazir.className} flex flex-col min-h-screen`}>
+        {" "}
+        {/* اضافه کردن flex flex-col min-h-screen */}
+        <Header />
+        <main className="flex-grow">{children}</main>{" "}
+        {/* اضافه کردن flex-grow */}
+        <Footer /> {/* ۲. قرار دادن فوتر در اینجا */}
       </body>
     </html>
   );
