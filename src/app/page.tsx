@@ -1,20 +1,61 @@
 // src/app/page.tsx
 "use client";
 
-// کامپوننت‌های اصلی هر بخش از صفحه
-import HeroSection from "@/components/HeroSection"; // کامپوننت جدید برای Hero Section
+// وارد کردن کامپوننت‌های اصلی بخش‌های صفحه
+import HeroSlider from "@/components/HeroSlider";
 import IntroAndAdvantagesSection from "@/components/IntroAndAdvantagesSection";
-import ProductsSection from "@/components/ProductsSection";
+import ProductsSection from "@/components/ProductsSection"; // حالا خودش داده‌ها را از Supabase می‌خواند
 import TestimonialsSection from "@/components/TestimonialsSection";
 
 // وارد کردن آیکون‌ها فقط برای داده‌هایی که در همین فایل تعریف می‌شوند (advantagesData)
 import { ShieldCheck, LayoutGrid, Users, Truck } from "lucide-react";
 
 // --- داده‌های صفحه ---
-// این داده‌ها می‌توانند در آینده از یک API خوانده شوند یا به فایل‌های جداگانه منتقل شوند.
+// این داده‌ها در آینده می‌توانند از یک API خوانده شوند یا به فایل‌های جداگانه منتقل شوند.
 
-// داده‌های images حالا داخل HeroSection.tsx هستند و دیگر در این فایل لازم نیستند.
-// const images = [ ... ];
+const images = [
+  {
+    src: "/image/hero/hero-slide-1.jpg",
+    alt: "اسلاید اول چوب ونداد",
+    title: "تخصص در بهترین نوع چوب",
+    description: "محصولات ما با دقت و از بهترین مواد اولیه تهیه می‌شوند.",
+    buttonText: "مشاهده محصولات",
+    buttonLink: "/products",
+  },
+  {
+    src: "/image/hero/hero-slide-2.jpg",
+    alt: "اسلاید دوم چوب ونداد",
+    title: "طراحی مدرن، کیفیت بی‌نظیر",
+    description: "با چوب ونداد، زیبایی و دوام را به خانه خود بیاورید.",
+    buttonText: "پروژه‌های ما",
+    buttonLink: "/projects",
+  },
+  {
+    src: "/image/hero/hero-slide-3.jpg",
+    alt: "اسلاید سوم چوب ونداد",
+    title: "مشاوره تخصصی رایگان",
+    description:
+      "کارشناسان ما آماده ارائه مشاوره برای انتخاب بهترین محصول هستند.",
+    buttonText: "تماس با ما",
+    buttonLink: "/contact",
+  },
+  {
+    src: "/image/hero/hero-slide-4.jpg",
+    alt: "اسلاید چهارم چوب ونداد",
+    title: "تنوع بی‌نظیر محصولات",
+    description: "انواع چوب‌های ساختمانی و دکوراتیو با بهترین قیمت.",
+    buttonText: "همه محصولات",
+    buttonLink: "/products",
+  },
+  {
+    src: "/image/hero/hero-slide-5.jpg",
+    alt: "اسلاید پنجم چوب ونداد",
+    title: "کیفیت اتفاقی نیست!",
+    description: "تجربه سال‌ها حضور در بازار چوب ایران.",
+    buttonText: "درباره ما",
+    buttonLink: "/about",
+  },
+];
 
 const advantagesData = [
   {
@@ -42,77 +83,8 @@ const advantagesData = [
   },
 ];
 
-const productsData = [
-  {
-    imageSrc: "/image/products/1.jpg",
-    name: "محصول چوبی شماره ۱",
-    price: "تماس بگیرید",
-    productLink: "/products/product-1",
-    description:
-      "توضیح کوتاه برای محصول شماره ۱ که ویژگی‌های اصلی آن را بیان می‌کند.",
-    stockQuantity: 10,
-  },
-  {
-    imageSrc: "/image/products/2.jpg",
-    name: "محصول چوبی شماره ۲",
-    price: "۱,۵۰۰,۰۰۰ تومان",
-    productLink: "/products/product-2",
-    description:
-      "این محصول با بهترین چوب گردو ساخته شده و مناسب فضاهای کلاسیک است.",
-    stockQuantity: 5,
-  },
-  {
-    imageSrc: "/image/products/3.jpg",
-    name: "محصول چوبی شماره ۳",
-    price: "۹۵۰,۰۰۰ تومان",
-    productLink: "/products/product-3",
-    description: "یک انتخاب اقتصادی و با دوام برای پروژه‌های ساختمانی.",
-    stockQuantity: 0,
-  },
-  {
-    imageSrc: "/image/products/4.jpg",
-    name: "محصول چوبی شماره ۴",
-    price: "۲,۲۰۰,۰۰۰ تومان",
-    productLink: "/products/product-4",
-    description:
-      "طراحی منحصربه‌فرد با ترکیب چوب و فلز، ایده‌آل برای دکوراسیون مدرن.",
-    stockQuantity: 12,
-  },
-  {
-    imageSrc: "/image/products/5.jpg",
-    name: "محصول چوبی شماره ۵",
-    price: "۷۸۰,۰۰۰ تومان",
-    productLink: "/products/product-5",
-    description:
-      "مناسب برای استفاده در فضای باز، مقاوم در برابر رطوبت و نور خورشید.",
-    stockQuantity: 8,
-  },
-  {
-    imageSrc: "/image/products/6.jpg",
-    name: "محصول چوبی شماره ۶",
-    price: "۳,۱۰۰,۰۰۰ تومان",
-    productLink: "/products/product-6",
-    description:
-      "محصولی لوکس با جزئیات دقیق و ساخت بی‌نظیر برای افراد خاص‌پسند.",
-    stockQuantity: 3,
-  },
-  {
-    imageSrc: "/image/products/7.jpg",
-    name: "محصول چوبی شماره ۷",
-    price: "۱,۲۵۰,۰۰۰ تومان",
-    productLink: "/products/product-7",
-    description: "کاربردی و زیبا، مناسب برای هدیه دادن و استفاده روزمره.",
-    stockQuantity: 20,
-  },
-  {
-    imageSrc: "/image/products/8.jpg",
-    name: "محصول چوبی شماره ۸",
-    price: "۴,۵۰۰,۰۰۰ تومان",
-    productLink: "/products/product-8",
-    description: "یک سرمایه‌گذاری برای زیبایی و دوام، ساخته شده از چوب کمیاب.",
-    stockQuantity: 2,
-  },
-];
+// آرایه productsData دیگر در اینجا لازم نیست، چون ProductsSection خودش داده‌ها را از Supabase می‌خواند
+// const productsData = [ ... ];
 
 const testimonialsData = [
   {
@@ -138,16 +110,12 @@ const testimonialsData = [
 export default function Home() {
   return (
     <main>
-      {/* استفاده از کامپوننت HeroSection */}
-      {/* داده‌های اسلایدر (images) حالا داخل خود کامپوننت HeroSection مدیریت می‌شوند */}
-      <HeroSection />
-
+      <HeroSlider images={images} />
       <IntroAndAdvantagesSection advantages={advantagesData} />
-      <ProductsSection products={productsData} />
+      {/* کامپوننت ProductsSection دیگر پراپ products را دریافت نمی‌کند */}
+      <ProductsSection />
       <TestimonialsSection testimonials={testimonialsData} />
-
-      {/* در آینده می‌توانید کامپوننت Footer را نیز در اینجا یا در layout.tsx قرار دهید */}
-      {/* <Footer /> */}
+      {/* <Footer /> */} {/* فوتر در layout.tsx قرار دارد */}
     </main>
   );
 }

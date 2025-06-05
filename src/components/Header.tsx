@@ -1,7 +1,7 @@
 // src/components/Header.tsx
 "use client";
 
-import { useState, useEffect } from "react"; // اطمینان از ایمپورت صحیح
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -22,12 +22,10 @@ const Header = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    // وقتی مسیر تغییر می‌کند، اگر منوی موبایل باز است، آن را ببند.
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, isMenuOpen]); // isMenuOpen به آرایه وابستگی اضافه شد
+  }, [pathname, isMenuOpen]); // isMenuOpen در آرایه وابستگی‌ها قرار دارد
 
   const focusRing =
     "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
@@ -43,11 +41,11 @@ const Header = () => {
     <>
       <header className="bg-white shadow-md sticky top-0 z-30">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-1 gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 py-1">
+            <div className="flex-shrink-0">
               <Link
                 href="/"
-                className={`flex-shrink-0 rounded-lg ${focusRing}`}
+                className={`rounded-lg ${focusRing}`}
               >
                 <Image
                   src="/logo.png"
@@ -57,22 +55,21 @@ const Header = () => {
                   priority
                 />
               </Link>
-              <div className="relative max-w-3xl hidden lg:block">
-                <input
-                  type="text"
-                  placeholder="جستجو در محصولات..."
-                  className="w-full bg-gray-100 border border-gray-200 rounded-lg px-4 py-1.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
+            </div>
+            <div className="relative flex-grow max-w-3xl hidden lg:block">
+              <input
+                type="text"
+                placeholder="جستجو در محصولات..."
+                className="w-full bg-gray-100 border border-gray-200 rounded-lg px-4 py-1.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <Search
+                  size={20}
+                  className="text-gray-400"
                 />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Search
-                    size={20}
-                    className="text-gray-400"
-                  />
-                </div>
               </div>
             </div>
-
-            <div className="flex items-center">
+            <div className="flex-shrink-0">
               <Link
                 href="/auth/login"
                 className={`hidden lg:flex items-center gap-2 text-sm text-gray-600 border border-gray-300 rounded-lg px-3 py-1 hover:bg-gray-100 transition-colors ${focusRing}`}
@@ -91,7 +88,6 @@ const Header = () => {
               </div>
             </div>
           </div>
-
           <nav className="hidden lg:flex justify-center items-center border-t border-gray-100 py-1.5 gap-x-2">
             {navItems.map((item) => (
               <Link
@@ -112,7 +108,6 @@ const Header = () => {
             </Link>
           </nav>
         </div>
-
         <div
           className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg transition-all duration-300 ease-in-out transform origin-top ${
             isMenuOpen
@@ -171,5 +166,4 @@ const Header = () => {
     </>
   );
 };
-
 export default Header;

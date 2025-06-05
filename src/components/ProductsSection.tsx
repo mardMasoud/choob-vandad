@@ -1,23 +1,29 @@
 // src/components/ProductsSection.tsx
-import React from 'react';
-import ProductCard from '@/components/ProductCard'; // کامپوننت کارت محصول
+import React from "react";
+import ProductCard from "@/components/ProductCard";
+import { supabase } from "@/lib/supabaseClient";
 
-// تعریف نوع برای داده‌های هر محصول
-interface ProductData {
-  imageSrc: string;
-  name: string;
-  price: string;
-  productLink?: string;
-  description: string;
-  stockQuantity: number;
-}
+// اینترفیس ProductData حذف شد، چون نوع داده از Supabase استنتاج می‌شود یا می‌توانیم
+// از تایپ‌های خود Supabase استفاده کنیم اگر نیاز به تعریف صریح باشد.
 
-// تعریف پراپ برای کامپوننت ProductsSection
-interface ProductsSectionProps {
-  products: ProductData[];
-}
+const ProductsSection = async () => {
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(8);
 
-const ProductsSection: React.FC<ProductsSectionProps> = ({ products }) => {
+  if (error) {
+    console.error("Error fetching products:", error);
+    return <p className="text-center text-red-500">خطا در بارگذاری محصولات.</p>;
+  }
+
+  if (!products || products.length === 0) {
+    return (
+      <p className="text-center text-gray-500">محصولی برای نمایش وجود ندارد.</p>
+    );
+  }
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
@@ -25,15 +31,25 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ products }) => {
           محصولات ما
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
+          {/* TypeScript در اینجا نوع 'product' را از نتیجه 'supabase.from('products').select('*')' استنتاج می‌کند.
+            اگر بخواهید نوع آن را صریحاً مشخص کنید، می‌توانید از تایپ‌های تولید شده توسط Supabase CLI استفاده کنید 
+            یا یک اینترفیس مشابه آنچه قبلاً داشتید، نگه دارید و 'products' را به آن cast کنید:
+            `products.map((product: ProductData) => (`
+            اما برای این مرحله، حذف اینترفیس بلااستفاده کافی است.
+          */}
+          {products.map((product) => (
             <ProductCard
-              key={index}
-              imageSrc={product.imageSrc}
+              key={product.id}
+              imageSrc={product.image_src}
               name={product.name}
-              price={product.price}
-              description={product.description}
-              stockQuantity={product.stockQuantity}
-              productLink={product.productLink}
+              price={
+                product.price
+                  ? `${product.price.toLocaleString("fa-IR")} تومان`
+                  : "تماس بگیرید"
+              }
+              description={product.description || "توضیحات موجود نیست."}
+              stockQuantity={product.stock_quantity}
+              productLink={product.product_link || "#"}
             />
           ))}
         </div>
