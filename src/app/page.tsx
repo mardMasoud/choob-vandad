@@ -1,17 +1,17 @@
 // src/app/page.tsx
-"use client";
+"use client"; // این کامپوننت کلاینت باقی می‌ماند به دلیل استفاده از HeroSlider (که Swiper دارد)
 
-// وارد کردن کامپوننت‌های اصلی بخش‌های صفحه
 import HeroSlider from "@/components/HeroSlider";
 import IntroAndAdvantagesSection from "@/components/IntroAndAdvantagesSection";
-import ProductsSection from "@/components/ProductsSection"; // حالا خودش داده‌ها را از Supabase می‌خواند
+import ProductsSection from "@/components/ProductsSection"; // این حالا یک Server Component است که در سمت سرور داده واکشی می‌کند
 import TestimonialsSection from "@/components/TestimonialsSection";
 
 // وارد کردن آیکون‌ها فقط برای داده‌هایی که در همین فایل تعریف می‌شوند (advantagesData)
 import { ShieldCheck, LayoutGrid, Users, Truck } from "lucide-react";
 
 // --- داده‌های صفحه ---
-// این داده‌ها در آینده می‌توانند از یک API خوانده شوند یا به فایل‌های جداگانه منتقل شوند.
+// این داده‌ها برای کامپوننت‌هایی هستند که هنوز داینامیک نشده‌اند
+// یا داده‌هایی که به صورت ثابت از همینجا به کامپوننت‌های فرزند پاس داده می‌شوند.
 
 const images = [
   {
@@ -83,8 +83,7 @@ const advantagesData = [
   },
 ];
 
-// آرایه productsData دیگر در اینجا لازم نیست، چون ProductsSection خودش داده‌ها را از Supabase می‌خواند
-// const productsData = [ ... ];
+// آرایه productsData دیگر در اینجا لازم نیست، چون ProductsSection خودش داده‌ها را از Supabase می‌خواند.
 
 const testimonialsData = [
   {
@@ -112,10 +111,11 @@ export default function Home() {
     <main>
       <HeroSlider images={images} />
       <IntroAndAdvantagesSection advantages={advantagesData} />
-      {/* کامپوننت ProductsSection دیگر پراپ products را دریافت نمی‌کند */}
+      {/* کامپوننت ProductsSection دیگر پراپ products را دریافت نمی‌کند 
+        و خودش به صورت async داده‌ها را از Supabase در سمت سرور واکشی می‌کند.
+      */}
       <ProductsSection />
       <TestimonialsSection testimonials={testimonialsData} />
-      {/* <Footer /> */} {/* فوتر در layout.tsx قرار دارد */}
     </main>
   );
 }

@@ -1,26 +1,69 @@
 // src/components/ProductsSection.tsx
-import React from "react";
+"use client"; // این کامپوننت حالا یک Client Component است
+
+import React, { useState, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
-import { supabase } from "@/lib/supabaseClient";
+import { getProductsAction } from "@/lib/actions"; // وارد کردن Server Action از مسیر صحیح
 
-// اینترفیس ProductData حذف شد، چون نوع داده از Supabase استنتاج می‌شود یا می‌توانیم
-// از تایپ‌های خود Supabase استفاده کنیم اگر نیاز به تعریف صریح باشد.
+// تعریف نوع برای محصول، برای استفاده در state و props
+// این باید با اینترفیسی که در actions.ts (یا فایل تایپ مشترک) تعریف شده، یکی باشد.
+interface Product {
+  id: number;
+  created_at: string; // معمولاً تاریخ به صورت رشته از Supabase می‌آید
+  name: string;
+  description: string | null;
+  price: number | null;
+  image_src: string;
+  stock_quantity: number;
+  product_link: string | null;
+  category: string | null;
+}
 
-const ProductsSection = async () => {
-  const { data: products, error } = await supabase
-    .from("products")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(8);
+const ProductsSection = () => {
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setLoading(true);
+      setError(null); // ریست کردن خطا قبل از درخواست جدید
+      const result = await getProductsAction(); // فراخوانی Server Action
+
+      if (result.error) {
+        console.error("Error loading products in component:", result.error);
+        setError(result.error);
+        setProducts(null);
+      } else {
+        setProducts(result.products);
+      }
+      setLoading(false);
+    };
+
+    loadProducts();
+  }, []); // این effect فقط یک بار پس از اولین رندر اجرا می‌شود
+
+  if (loading) {
+    return (
+      <div className="text-center py-16">
+        <p>در حال بارگذاری محصولات...</p>
+      </div>
+    );
+  }
 
   if (error) {
-    console.error("Error fetching products:", error);
-    return <p className="text-center text-red-500">خطا در بارگذاری محصولات.</p>;
+    return (
+      <div className="text-center py-16">
+        <p className="text-red-500">خطا در بارگذاری محصولات: {error}</p>
+      </div>
+    );
   }
 
   if (!products || products.length === 0) {
     return (
-      <p className="text-center text-gray-500">محصولی برای نمایش وجود ندارد.</p>
+      <div className="text-center py-16">
+        <p className="text-gray-500">محصولی برای نمایش وجود ندارد.</p>
+      </div>
     );
   }
 
@@ -31,12 +74,6 @@ const ProductsSection = async () => {
           محصولات ما
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* TypeScript در اینجا نوع 'product' را از نتیجه 'supabase.from('products').select('*')' استنتاج می‌کند.
-            اگر بخواهید نوع آن را صریحاً مشخص کنید، می‌توانید از تایپ‌های تولید شده توسط Supabase CLI استفاده کنید 
-            یا یک اینترفیس مشابه آنچه قبلاً داشتید، نگه دارید و 'products' را به آن cast کنید:
-            `products.map((product: ProductData) => (`
-            اما برای این مرحله، حذف اینترفیس بلااستفاده کافی است.
-          */}
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -48,7 +85,7 @@ const ProductsSection = async () => {
                   : "تماس بگیرید"
               }
               description={product.description || "توضیحات موجود نیست."}
-              stockQuantity={product.stock_quantity}
+              stockQuantity={product.stock_quantity} // اینجا باید از stock_quantity استفاده شود
               productLink={product.product_link || "#"}
             />
           ))}

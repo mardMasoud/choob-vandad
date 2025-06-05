@@ -1,6 +1,6 @@
 // src/app/contact/page.tsx
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import Link from "next/link";
+// import Link from 'next/link'; // حذف شد چون در این نسخه از کد استفاده نشده بود
 
 export default function ContactPage() {
   const focusRing =
@@ -20,12 +20,10 @@ export default function ContactPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* بخش اطلاعات تماس */}
           <div className="space-y-6 bg-slate-50 p-6 sm:p-8 rounded-lg shadow-md">
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-700 mb-6">
               اطلاعات تماس چوب ونداد
             </h2>
-
             <div className="flex items-start">
               <MapPin
                 size={24}
@@ -40,7 +38,6 @@ export default function ContactPage() {
                 </p>
               </div>
             </div>
-
             <div className="flex items-center">
               <Phone
                 size={24}
@@ -48,7 +45,6 @@ export default function ContactPage() {
               />
               <div>
                 <h3 className="font-semibold text-gray-700">تلفن تماس:</h3>
-                {/* اصلاح در خط زیر */}
                 <a
                   href="tel:+98518325636"
                   className={`text-gray-600 hover:text-teal-700 ${focusRing} rounded`}
@@ -58,7 +54,6 @@ export default function ContactPage() {
                 </a>
               </div>
             </div>
-
             <div className="flex items-center">
               <Mail
                 size={24}
@@ -74,7 +69,6 @@ export default function ContactPage() {
                 </a>
               </div>
             </div>
-
             <div className="flex items-center">
               <Clock
                 size={24}
@@ -89,8 +83,6 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-
-          {/* بخش فرم تماس */}
           <div className="bg-slate-50 p-6 sm:p-8 rounded-lg shadow-md">
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-700 mb-6">
               برای ما پیام بگذارید

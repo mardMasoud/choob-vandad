@@ -1,7 +1,7 @@
 // src/app/about/page.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, Users, TrendingUp, Award } from "lucide-react";
+import { ShieldCheck, Users, TrendingUp, Award } from "lucide-react"; // آیکون‌های استفاده شده در این صفحه
 
 export default function AboutPage() {
   const focusRingTeal =
@@ -12,15 +12,16 @@ export default function AboutPage() {
       {/* بخش Hero کوچک برای صفحه درباره ما */}
       <section
         className="relative h-[40vh] bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/image/about/company-hero.jpg')" }} // مسیر تصویر Hero بالای صفحه
+        style={{ backgroundImage: "url('/image/about/company-hero.jpg')" }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-6 z-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg">
             داستان <span className="text-teal-400">چوب ونداد</span>
           </h1>
+          {/* اصلاح شده: استفاده از &quot; برای نقل قول */}
           <p className="mt-4 text-lg md:text-xl max-w-2xl drop-shadow-md">
-            سفری از تجربه و تعهد به سوی کیفیت و نوآوری در صنعت چوب.
+            سفری از تجربه و تعهد به سوی کیفیت و نوآوری در صنعت &quot;چوب&quot;.
           </p>
         </div>
       </section>
@@ -34,32 +35,32 @@ export default function AboutPage() {
                 از بازنشستگی تا بنیان‌گذاری: آغاز راه ونداد
               </h2>
               <p>
-                داستان "چوب ونداد" از جایی شروع شد که سه برادر، حمید، محمد و
-                مهدی، پس از سال‌ها خدمت و کسب تجربه در عرصه‌های مختلف صنعتی و
-                مدیریتی، به دوران بازنشستگی رسیدند. اما برای آن‌ها، بازنشستگی نه
-                به معنای پایان فعالیت، بلکه سرآغازی برای تحقق یک رویای مشترک
-                بود: تاسیس شرکتی که بر پایه دانش، تعهد و عشق به صنعت چوب بنا
-                شود.
+                {/* اصلاح شده: استفاده از &quot; برای نقل قول */}
+                داستان &quot;چوب ونداد&quot; از جایی شروع شد که سه برادر، حمید،
+                محمد و مهدی، پس از سال‌ها خدمت و کسب تجربه در عرصه‌های مختلف
+                صنعتی و مدیریتی، به دوران بازنشستگی رسیدند. اما برای آن‌ها،
+                بازنشستگی نه به معنای پایان فعالیت، بلکه سرآغازی برای تحقق یک
+                رویای مشترک بود: تاسیس شرکتی که بر پایه دانش، تعهد و عشق به صنعت
+                چوب بنا شود.
               </p>
               <p>
                 هر سه برادر، با کوله‌باری از تجربه و با نگاهی به آینده، تصمیم
                 گرفتند تا در کنار هم، کسب‌وکاری را راه‌اندازی کنند که نه تنها یک
                 منبع درآمد، بلکه محلی برای انتقال تجربیات و ارائه خدماتی متمایز
                 به بازار باشد. آن‌ها با بررسی دقیق نیازهای بازار و با اتکا به
-                شبکه‌ای از متخصصین و تامین‌کنندگان معتبر، "چوب ونداد" را با هدف
-                ارائه بهترین و باکیفیت‌ترین محصولات چوبی و فرآورده‌های مرتبط
-                بنیان نهادند. شور و اشتیاق روزهای اول، با چالش‌های شیرین
+                شبکه‌ای از متخصصین و تامین‌کنندگان معتبر، &quot;چوب ونداد&quot;
+                را با هدف ارائه بهترین و باکیفیت‌ترین محصولات چوبی و فرآورده‌های
+                مرتبط بنیان نهادند. شور و اشتیاق روزهای اول، با چالش‌های شیرین
                 راه‌اندازی یک کسب‌وکار جدید همراه بود، اما هدف مشترک و برادری
                 آن‌ها، مسیر را هموارتر می‌کرد.
               </p>
               <p>
-                امروز، "چوب ونداد" با افتخار به مسیری که طی کرده می‌نگرد و با
-                همان تعهد اولیه، به دنبال ارائه بهترین‌ها به شما مشتریان گرامی
-                است.
+                امروز، &quot;چوب ونداد&quot; با افتخار به مسیری که طی کرده
+                می‌نگرد و با همان تعهد اولیه، به دنبال ارائه بهترین‌ها به شما
+                مشتریان گرامی است.
               </p>
             </div>
             <div className="rounded-lg overflow-hidden shadow-2xl order-first md:order-last">
-              {/* تغییر در اینجا: استفاده از نام جدید تصویر vandad-story.jpg */}
               <Image
                 src="/image/about/vandad-story.jpg"
                 alt="داستان چوب ونداد"
