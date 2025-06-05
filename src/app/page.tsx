@@ -1,17 +1,18 @@
 // src/app/page.tsx
-"use client"; // این کامپوننت کلاینت باقی می‌ماند به دلیل استفاده از HeroSlider (که Swiper دارد)
+"use client";
 
-import HeroSlider from "@/components/HeroSlider";
+import HeroSection from "@/components/HeroSection";
 import IntroAndAdvantagesSection from "@/components/IntroAndAdvantagesSection";
-import ProductsSection from "@/components/ProductsSection"; // این حالا یک Server Component است که در سمت سرور داده واکشی می‌کند
+import ProductsSection from "@/components/ProductsSection"; // این کامپوننت حالا از useQuery استفاده می‌کند
 import TestimonialsSection from "@/components/TestimonialsSection";
 
-// وارد کردن آیکون‌ها فقط برای داده‌هایی که در همین فایل تعریف می‌شوند (advantagesData)
+// وارد کردن آیکون‌ها برای advantagesData
 import { ShieldCheck, LayoutGrid, Users, Truck } from "lucide-react";
 
 // --- داده‌های صفحه ---
-// این داده‌ها برای کامپوننت‌هایی هستند که هنوز داینامیک نشده‌اند
-// یا داده‌هایی که به صورت ثابت از همینجا به کامپوننت‌های فرزند پاس داده می‌شوند.
+// این داده‌ها (images, advantagesData, testimonialsData) به صورت استاتیک تعریف شده‌اند.
+// HeroSection داده‌های خود را داخلی مدیریت می‌کند.
+// ProductsSection داده‌های خود را با TanStack Query از Supabase واکشی می‌کند.
 
 const images = [
   {
@@ -83,7 +84,7 @@ const advantagesData = [
   },
 ];
 
-// آرایه productsData دیگر در اینجا لازم نیست، چون ProductsSection خودش داده‌ها را از Supabase می‌خواند.
+// آرایه productsData دیگر در اینجا لازم نیست، چون ProductsSection خودش داده‌ها را واکشی می‌کند.
 
 const testimonialsData = [
   {
@@ -109,12 +110,14 @@ const testimonialsData = [
 export default function Home() {
   return (
     <main>
-      <HeroSlider images={images} />
-      <IntroAndAdvantagesSection advantages={advantagesData} />
-      {/* کامپوننت ProductsSection دیگر پراپ products را دریافت نمی‌کند 
-        و خودش به صورت async داده‌ها را از Supabase در سمت سرور واکشی می‌کند.
+      {/* HeroSection داده‌های خود (slidesData) را به صورت داخلی دارد یا اگر بخواهیم می‌توانیم images را به آن پاس دهیم.
+          با توجه به کد HeroSection.tsx که شما ارسال کردید، داده‌های slidesData داخل آن تعریف شده‌اند.
+          بنابراین، نیازی به پاس دادن پراپ images به آن نیست.
       */}
-      <ProductsSection />
+      <HeroSection />
+      <IntroAndAdvantagesSection advantages={advantagesData} />
+      <ProductsSection />{" "}
+      {/* این کامپوننت داده‌هایش را خودش با TanStack Query واکشی می‌کند */}
       <TestimonialsSection testimonials={testimonialsData} />
     </main>
   );

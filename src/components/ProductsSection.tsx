@@ -1,15 +1,15 @@
 // src/components/ProductsSection.tsx
-"use client"; // این کامپوننت حالا یک Client Component است
+"use client"; // این کامپوننت برای استفاده از useQuery باید کلاینت باشد
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ProductCard from "@/components/ProductCard";
-import { getProductsAction } from "@/lib/actions"; // وارد کردن Server Action از مسیر صحیح
+import { useQuery } from "@tanstack/react-query"; // ۱. وارد کردن useQuery
+import { getProductsAction } from "@/lib/actions"; // ۲. وارد کردن Server Action که قبلاً ساختیم
 
-// تعریف نوع برای محصول، برای استفاده در state و props
-// این باید با اینترفیسی که در actions.ts (یا فایل تایپ مشترک) تعریف شده، یکی باشد.
+// تعریف نوع برای محصول (این باید با نوعی که در actions.ts تعریف شده، یکی باشد)
 interface Product {
   id: number;
-  created_at: string; // معمولاً تاریخ به صورت رشته از Supabase می‌آید
+  created_at: string;
   name: string;
   description: string | null;
   price: number | null;
@@ -20,30 +20,21 @@ interface Product {
 }
 
 const ProductsSection = () => {
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  // ۳. استفاده از useQuery برای واکشی داده‌ها
+  const {
+    data: queryResult, // نتیجه شامل products و error خواهد بود
+    isLoading, // وضعیت در حال بارگذاری
+    isError, // وضعیت خطا
+    error, // خود آبجکت خطا
+  } = useQuery<{ products: Product[] | null; error: string | null }, Error>({
+    // تعریف نوع داده و نوع خطا
+    queryKey: ["products", "homepage"], // یک کلید یکتا برای این کوئری
+    queryFn: getProductsAction, // تابعی که داده‌ها را واکشی می‌کند (Server Action ما)
+    // می‌توانید گزینه‌های دیگری مانند staleTime, cacheTime و ... را اینجا اضافه کنید
+    // staleTime: 5 * 60 * 1000, // 5 دقیقه
+  });
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
-      setError(null); // ریست کردن خطا قبل از درخواست جدید
-      const result = await getProductsAction(); // فراخوانی Server Action
-
-      if (result.error) {
-        console.error("Error loading products in component:", result.error);
-        setError(result.error);
-        setProducts(null);
-      } else {
-        setProducts(result.products);
-      }
-      setLoading(false);
-    };
-
-    loadProducts();
-  }, []); // این effect فقط یک بار پس از اولین رندر اجرا می‌شود
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="text-center py-16">
         <p>در حال بارگذاری محصولات...</p>
@@ -51,13 +42,22 @@ const ProductsSection = () => {
     );
   }
 
-  if (error) {
+  // در useQuery، خطا در پراپرتی error قرار می‌گیرد
+  if (isError || queryResult?.error) {
+    console.error(
+      "Error fetching products with useQuery:",
+      error || queryResult?.error
+    );
     return (
       <div className="text-center py-16">
-        <p className="text-red-500">خطا در بارگذاری محصولات: {error}</p>
+        <p className="text-red-500">
+          خطا در بارگذاری محصولات: {error?.message || queryResult?.error}
+        </p>
       </div>
     );
   }
+
+  const products = queryResult?.products;
 
   if (!products || products.length === 0) {
     return (
@@ -85,7 +85,7 @@ const ProductsSection = () => {
                   : "تماس بگیرید"
               }
               description={product.description || "توضیحات موجود نیست."}
-              stockQuantity={product.stock_quantity} // اینجا باید از stock_quantity استفاده شود
+              stockQuantity={product.stock_quantity}
               productLink={product.product_link || "#"}
             />
           ))}
