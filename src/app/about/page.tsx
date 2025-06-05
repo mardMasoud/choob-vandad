@@ -6,8 +6,8 @@ export default function AboutPage() {
     <div className="container mx-auto px-4 py-12 text-center">
       <h1 className="text-4xl font-bold mb-6">صفحه درباره ما</h1>
       <p className="text-lg mb-8">
-        در این صفحه، اطلاعاتی در مورد تاریخچه، تیم، اهداف و ارزش‌های "چوب ونداد"
-        ارائه خواهد شد.
+        در این صفحه، اطلاعاتی در مورد تاریخچه، تیم، اهداف و ارزش‌های &quot;چوب
+        ونداد&quot; ارائه خواهد شد.
       </p>
       <Link
         href="/"
