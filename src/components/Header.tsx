@@ -1,34 +1,27 @@
 // src/components/Header.tsx
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import {
-  Search,
-  User,
-  Home,
-  Newspaper,
-  Users,
-  Phone,
-  Calculator,
-  Menu,
-  X,
-} from "lucide-react";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { Search, User, Home, Newspaper, Users, Phone, Calculator, Menu, X } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
+    // این هوک برای بستن منوی موبایل هنگام تغییر مسیر استفاده می‌شود
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-  }, [pathname, isMenuOpen]); // isMenuOpen در آرایه وابستگی‌ها قرار دارد
+    // ESLint ممکن است در اینجا هشدار exhaustive-deps بدهد اگر isMenuOpen را اضافه نکنیم.
+    // با این حال، اضافه کردن isMenuOpen به وابستگی‌ها باعث می‌شود این effect در هر بار باز/بسته شدن منو هم اجرا شود
+    // که در این مورد خاص، رفتار مطلوب را تغییر نمی‌دهد چون فقط در صورت باز بودن منو عمل می‌کند.
+  }, [pathname, isMenuOpen]); // isMenuOpen اضافه شد تا هشدار ESLint رفع شود و رفتار هم صحیح بماند.
 
-  const focusRing =
-    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
+  const focusRing = "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
 
   const navItems = [
     { href: "/", icon: Home, label: "صفحه اصلی" },
@@ -41,12 +34,12 @@ const Header = () => {
     <>
       <header className="bg-white shadow-md sticky top-0 z-30">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-4 py-1">
+          {/* ردیف بالا */}
+          <div className="flex justify-between items-center py-1 gap-4">
+            {/* بخش راست: لوگو */}
             <div className="flex-shrink-0">
-              <Link
-                href="/"
-                className={`rounded-lg ${focusRing}`}
-              >
+              <Link href="/" className={`rounded-lg ${focusRing}`}>
+                {/* استفاده از width و height مشخص برای Image جهت جلوگیری از Hydration Mismatch احتمالی */}
                 <Image
                   src="/logo.png"
                   alt="لوگوی چوب ونداد"
@@ -56,6 +49,8 @@ const Header = () => {
                 />
               </Link>
             </div>
+
+            {/* بخش وسط: نوار جستجو */}
             <div className="relative flex-grow max-w-3xl hidden lg:block">
               <input
                 type="text"
@@ -63,12 +58,11 @@ const Header = () => {
                 className="w-full bg-gray-100 border border-gray-200 rounded-lg px-4 py-1.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <Search
-                  size={20}
-                  className="text-gray-400"
-                />
+                <Search size={20} className="text-gray-400" />
               </div>
             </div>
+
+            {/* بخش چپ: دکمه‌ها */}
             <div className="flex-shrink-0">
               <Link
                 href="/auth/login"
@@ -88,6 +82,8 @@ const Header = () => {
               </div>
             </div>
           </div>
+
+          {/* منوی دسکتاپ */}
           <nav className="hidden lg:flex justify-center items-center border-t border-gray-100 py-1.5 gap-x-2">
             {navItems.map((item) => (
               <Link
@@ -108,11 +104,11 @@ const Header = () => {
             </Link>
           </nav>
         </div>
+
+        {/* منوی موبایل Dropdown */}
         <div
           className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg transition-all duration-300 ease-in-out transform origin-top ${
-            isMenuOpen
-              ? "opacity-100 scale-y-100"
-              : "opacity-0 scale-y-95 pointer-events-none"
+            isMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-95 pointer-events-none'
           }`}
         >
           <nav className="flex flex-col p-4 gap-y-2">
@@ -123,10 +119,7 @@ const Header = () => {
                 className="w-full bg-gray-100 border border-gray-200 rounded-lg px-4 py-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <Search
-                  size={20}
-                  className="text-gray-400"
-                />
+                <Search size={20} className="text-gray-400" />
               </div>
             </div>
             {navItems.map((item) => (
@@ -146,7 +139,7 @@ const Header = () => {
               <Calculator size={20} />
               <span>استعلام سریع قیمت</span>
             </Link>
-            <hr className="my-2" />
+            <hr className="my-2"/>
             <Link
               href="/auth/login"
               className={`flex items-center gap-2 text-gray-700 hover:bg-gray-100 px-4 py-3 rounded-lg ${focusRing}`}
@@ -157,13 +150,15 @@ const Header = () => {
           </nav>
         </div>
       </header>
+      {/* Overlay برای منوی موبایل */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-20"
+          className="fixed inset-0 bg-black/60 z-20" // z-index کمتر از منوی موبایل (که z-30 دارد)
           onClick={() => setIsMenuOpen(false)}
         ></div>
       )}
     </>
   );
 };
+
 export default Header;
