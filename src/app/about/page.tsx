@@ -1,100 +1,150 @@
 // src/app/about/page.tsx
-import Image from "next/image"; // اگر می‌خواهید تصویر اضافه کنید
+import Image from "next/image";
 import Link from "next/link";
+import { ShieldCheck, Users, TrendingUp, Award } from "lucide-react";
 
 export default function AboutPage() {
+  const focusRingTeal =
+    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
+
   return (
-    <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
-      <header className="text-center mb-12 lg:mb-16">
-        <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-800">
-          درباره چوب ونداد
-        </h1>
-        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-          آشنایی بیشتر با داستان، اهداف و تیمی که در پشت کیفیت و نوآوری ما قرار
-          دارد.
-        </p>
-      </header>
+    <div className="bg-white">
+      {/* بخش Hero کوچک برای صفحه درباره ما */}
+      <section
+        className="relative h-[40vh] bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/image/about/company-hero.jpg')" }} // مسیر تصویر Hero بالای صفحه
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-6 z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg">
+            داستان <span className="text-teal-400">چوب ونداد</span>
+          </h1>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl drop-shadow-md">
+            سفری از تجربه و تعهد به سوی کیفیت و نوآوری در صنعت چوب.
+          </p>
+        </div>
+      </section>
 
-      <section className="mb-12 lg:mb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-700 mb-4">
-              داستان ما
+      <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+        {/* بخش داستان ما با سناریو */}
+        <section className="mb-16 lg:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="prose prose-lg prose-p:leading-relaxed prose-headings:text-gray-800 max-w-none text-justify">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6 !text-right">
+                از بازنشستگی تا بنیان‌گذاری: آغاز راه ونداد
+              </h2>
+              <p>
+                داستان "چوب ونداد" از جایی شروع شد که سه برادر، حمید، محمد و
+                مهدی، پس از سال‌ها خدمت و کسب تجربه در عرصه‌های مختلف صنعتی و
+                مدیریتی، به دوران بازنشستگی رسیدند. اما برای آن‌ها، بازنشستگی نه
+                به معنای پایان فعالیت، بلکه سرآغازی برای تحقق یک رویای مشترک
+                بود: تاسیس شرکتی که بر پایه دانش، تعهد و عشق به صنعت چوب بنا
+                شود.
+              </p>
+              <p>
+                هر سه برادر، با کوله‌باری از تجربه و با نگاهی به آینده، تصمیم
+                گرفتند تا در کنار هم، کسب‌وکاری را راه‌اندازی کنند که نه تنها یک
+                منبع درآمد، بلکه محلی برای انتقال تجربیات و ارائه خدماتی متمایز
+                به بازار باشد. آن‌ها با بررسی دقیق نیازهای بازار و با اتکا به
+                شبکه‌ای از متخصصین و تامین‌کنندگان معتبر، "چوب ونداد" را با هدف
+                ارائه بهترین و باکیفیت‌ترین محصولات چوبی و فرآورده‌های مرتبط
+                بنیان نهادند. شور و اشتیاق روزهای اول، با چالش‌های شیرین
+                راه‌اندازی یک کسب‌وکار جدید همراه بود، اما هدف مشترک و برادری
+                آن‌ها، مسیر را هموارتر می‌کرد.
+              </p>
+              <p>
+                امروز، "چوب ونداد" با افتخار به مسیری که طی کرده می‌نگرد و با
+                همان تعهد اولیه، به دنبال ارائه بهترین‌ها به شما مشتریان گرامی
+                است.
+              </p>
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-2xl order-first md:order-last">
+              {/* تغییر در اینجا: استفاده از نام جدید تصویر vandad-story.jpg */}
+              <Image
+                src="/image/about/vandad-story.jpg"
+                alt="داستان چوب ونداد"
+                width={600}
+                height={450}
+                className="object-cover w-full h-auto"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* بخش ارزش‌های ما */}
+        <section className="mb-16 lg:mb-20 py-12 bg-slate-50 rounded-xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800">
+              ارزش‌های ما، تعهد ما
             </h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              {/* متن نمونه: لطفاً با داستان واقعی شرکت خود جایگزین کنید */}
-              چوب ونداد فعالیت خود را از سال ۱۳۹۸ با هدف ارائه باکیفیت‌ترین
-              محصولات چوبی و فرآورده‌های مرتبط در بازار ایران آغاز کرد. از همان
-              ابتدا، تمرکز ما بر روی تامین مواد اولیه مرغوب، بهره‌گیری از دانش
-              روز و ارائه مشاوره تخصصی به مشتریان بوده است. ما باور داریم که هر
-              پروژه، از کوچکترین کار دکوراتیو تا بزرگترین سازه چوبی، شایسته
-              بهترین‌هاست.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              {/* متن نمونه */}
-              در طول این سال‌ها، با تکیه بر اعتماد شما و تلاش بی‌وقفه تیم متخصص
-              خود، توانسته‌ایم طیف وسیعی از محصولات، از انواع ورق‌های MDF و
-              نئوپان گرفته تا چوب‌های خاص و یراق‌آلات مدرن را فراهم آوریم.
+            <p className="mt-3 text-lg text-gray-600 max-w-xl mx-auto">
+              آنچه ما را در مسیر پیشرفت هدایت می‌کند و به کارمان معنا می‌بخشد.
             </p>
           </div>
-          <div className="rounded-lg overflow-hidden shadow-xl">
-            {/* یک تصویر مرتبط با شرکت یا تیم خود اینجا قرار دهید */}
-            {/* مثلاً: public/images/about/company-story.jpg */}
-            <Image
-              src="/image/about/vandad-story.jpg" // مسیر جدید تصویر شما
-              alt="داستان شرکت چوب ونداد"
-              width={600}
-              height={400}
-              className="object-cover w-full h-auto"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 md:px-8">
+            {[
+              {
+                icon: ShieldCheck,
+                title: "تضمین کیفیت",
+                description:
+                  "استفاده از بهترین مواد اولیه و نظارت دقیق بر فرآیندها برای ارائه محصولاتی بی‌نقص.",
+              },
+              {
+                icon: Users,
+                title: "مشتری‌مداری",
+                description:
+                  "رضایت شما اولویت ماست؛ از مشاوره تا خدمات پس از فروش، همواره در کنار شماییم.",
+              },
+              {
+                icon: TrendingUp,
+                title: "نوآوری و پیشرفت",
+                description:
+                  "به‌روز بودن با آخرین دستاوردهای صنعت چوب و ارائه راه‌حل‌های خلاقانه و مدرن.",
+              },
+              {
+                icon: Award,
+                title: "تعهد و مسئولیت‌پذیری",
+                description:
+                  "پایبندی به اصول حرفه‌ای و پاسخگویی در قبال تمام محصولات و خدمات ارائه شده.",
+              },
+            ].map((value, index) => (
+              <div
+                key={index}
+                className="p-6 bg-white rounded-lg shadow-lg text-center transition-all duration-300 hover:shadow-teal-200 hover:shadow-md"
+              >
+                <div className="flex justify-center mb-4">
+                  <value.icon
+                    className="h-12 w-12 text-teal-600"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-teal-700 mb-2">
+                  {value.title}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {value.description}
+                </p>
+              </div>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="mb-12 lg:mb-16 py-12 bg-slate-50 rounded-lg">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl lg:text-3xl font-bold text-gray-700">
-            چرا چوب ونداد؟
+        {/* بخش دعوت به اقدام */}
+        <section className="text-center">
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4">
+            آماده همکاری با شما هستیم!
           </h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-8">
-          <div className="p-6 bg-white rounded-lg shadow-md text-center">
-            <h3 className="text-xl font-semibold text-teal-600 mb-2">
-              کیفیت بی‌رقیب
-            </h3>
-            <p className="text-sm text-gray-500">
-              ما تنها از بهترین و مرغوب‌ترین مواد اولیه برای تولید و عرضه
-              محصولات خود استفاده می‌کنیم.
-            </p>
-          </div>
-          <div className="p-6 bg-white rounded-lg shadow-md text-center">
-            <h3 className="text-xl font-semibold text-teal-600 mb-2">
-              تعهد به مشتری
-            </h3>
-            <p className="text-sm text-gray-500">
-              رضایت شما اولویت اصلی ماست و در تمامی مراحل، از مشاوره تا پس از
-              فروش، در کنار شما هستیم.
-            </p>
-          </div>
-          <div className="p-6 bg-white rounded-lg shadow-md text-center">
-            <h3 className="text-xl font-semibold text-teal-600 mb-2">
-              نوآوری و تجربه
-            </h3>
-            <p className="text-sm text-gray-500">
-              ترکیبی از تجربه چندین ساله و به‌روزترین دانش صنعت چوب برای ارائه
-              بهترین راه‌حل‌ها.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div className="text-center mt-12">
-        <Link
-          href="/contact"
-          className="bg-teal-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-teal-700 transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-        >
-          با ما تماس بگیرید
-        </Link>
+          <p className="text-lg text-gray-600 max-w-xl mx-auto mb-8">
+            برای دریافت مشاوره رایگان یا کسب اطلاعات بیشتر در مورد محصولات و
+            خدمات ما، با ما تماس بگیرید.
+          </p>
+          <Link
+            href="/contact"
+            className={`inline-block bg-teal-600 text-white px-10 py-4 rounded-lg text-lg font-semibold hover:bg-teal-700 transition-colors shadow-lg ${focusRingTeal}`}
+          >
+            تماس با کارشناسان ما
+          </Link>
+        </section>
       </div>
     </div>
   );
