@@ -25,7 +25,8 @@ const Header = () => {
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-  }, [pathname, isMenuOpen]); // isMenuOpen در آرایه وابستگی‌ها قرار دارد
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const focusRing =
     "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
@@ -41,7 +42,7 @@ const Header = () => {
     <>
       <header className="bg-white shadow-md sticky top-0 z-30">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-4 py-1">
+          <div className="flex justify-between items-center py-1 gap-4">
             <div className="flex-shrink-0">
               <Link
                 href="/"
@@ -80,7 +81,7 @@ const Header = () => {
               <div className="lg:hidden">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className={`text-gray-700 hover:text-teal-600 p-1 rounded ${focusRing}`}
+                  className={`text-gray-700 hover:text-teal-600 p-1 rounded relative z-50 ${focusRing}`}
                 >
                   <span className="sr-only">باز کردن منو</span>
                   {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -108,13 +109,14 @@ const Header = () => {
             </Link>
           </nav>
         </div>
+
+        {/* تغییر اصلی در اینجا: انیمیشن کرکره‌ای با max-height */}
         <div
-          className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg transition-all duration-300 ease-in-out transform origin-top ${
-            isMenuOpen
-              ? "opacity-100 scale-y-100"
-              : "opacity-0 scale-y-95 pointer-events-none"
+          className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg overflow-hidden transition-all duration-500 ease-in-out ${
+            isMenuOpen ? "max-h-screen" : "max-h-0"
           }`}
         >
+          {/* محتوای منوی موبایل */}
           <nav className="flex flex-col p-4 gap-y-2">
             <div className="relative mb-2">
               <input
@@ -157,6 +159,7 @@ const Header = () => {
           </nav>
         </div>
       </header>
+      {/* Overlay برای منوی موبایل */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 bg-black/60 z-20"
@@ -166,4 +169,5 @@ const Header = () => {
     </>
   );
 };
+
 export default Header;

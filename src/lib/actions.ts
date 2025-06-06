@@ -1,10 +1,8 @@
 // src/lib/actions.ts
-"use server"; // این دستور فایل را به عنوان ماژول Server Actions مشخص می‌کند
+"use server";
 
-import { supabase } from "@/lib/supabaseClient"; // استفاده از کلاینت Supabase که در همین پوشه lib است
+import { supabase } from "@/lib/supabaseClient";
 
-// تعریف نوع برای محصول، برای استفاده داخلی و خوانایی بهتر
-// می‌توانید این اینترفیس را در یک فایل types.ts جداگانه هم تعریف و export کنید
 interface Product {
   id: number;
   created_at: string;
@@ -14,23 +12,48 @@ interface Product {
   image_src: string;
   stock_quantity: number;
   product_link: string | null;
+  slug: string | null;
   category: string | null;
 }
 
-export async function getProductsAction(): Promise<{
+export async function getPaginatedProductsAction({
+  page = 1,
+  limit = 12,
+}: {
+  page: number;
+  limit: number;
+}): Promise<{
   products: Product[] | null;
+  count: number | null;
   error: string | null;
 }> {
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(8);
+  try {
+    const offset = (page - 1) * limit;
 
-  if (error) {
-    console.error("Error fetching products in server action:", error);
-    return { products: null, error: error.message };
+    const [productsResponse, countResponse] = await Promise.all([
+      supabase
+        .from("products")
+        .select("*")
+        .order("name", { ascending: true })
+        .range(offset, offset + limit - 1),
+      supabase.from("products").select("*", { count: "exact", head: true }),
+    ]);
+
+    if (productsResponse.error || countResponse.error) {
+      throw productsResponse.error || countResponse.error;
+    }
+
+    return {
+      products: productsResponse.data as Product[],
+      count: countResponse.count,
+      error: null,
+    };
+  } catch (err: any) {
+    console.error("Error in getPaginatedProductsAction:", err);
+    return {
+      products: null,
+      count: null,
+      error: err.message || "An unknown error occurred.",
+    };
   }
-  // اطمینان از اینکه داده‌ها با نوع Product سازگار هستند (اختیاری اما خوب است)
-  return { products: data as Product[], error: null };
 }

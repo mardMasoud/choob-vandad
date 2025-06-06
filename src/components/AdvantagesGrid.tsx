@@ -1,16 +1,17 @@
 // src/components/AdvantagesGrid.tsx
-import React from 'react';
-import AdvantageCard from '@/components/AdvantageCard'; // کامپوننت کارت مزیت
-import { LucideProps} from 'lucide-react'; // آیکون‌ها
+import React from "react";
+import AdvantageCard from "@/components/AdvantageCard";
+// دیگر نیازی به import مستقیم آیکون‌ها در این فایل نیست
 
-// تعریف نوع برای داده‌های مزایا
+// تعریف نوع برای داده‌های هر مزیت (با iconName)
+// تغییر در اینجا: پراپرتی icon به iconName تغییر کرد
 interface Advantage {
-  icon: React.ElementType<LucideProps>;
+  iconName: string; // به جای icon
   title: string;
   description: string;
 }
 
-// داده‌های مزایا را به عنوان پراپ دریافت می‌کنیم
+// تعریف پراپ برای کامپوننت AdvantagesGrid
 interface AdvantagesGridProps {
   advantages: Advantage[];
 }
@@ -21,7 +22,7 @@ const AdvantagesGrid: React.FC<AdvantagesGridProps> = ({ advantages }) => {
       {advantages.map((advantage, index) => (
         <AdvantageCard
           key={index}
-          icon={advantage.icon}
+          iconName={advantage.iconName} // پاس دادن iconName به AdvantageCard
           title={advantage.title}
           description={advantage.description}
         />
