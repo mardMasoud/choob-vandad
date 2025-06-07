@@ -1,7 +1,8 @@
 // src/components/ProductCard.tsx
-import Image from "next/image";
-import Link from "next/link";
-import { PackageCheck, Tag } from "lucide-react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { PackageCheck, Tag } from 'lucide-react';
+// import type { Product } from '@/lib/types';
 
 interface ProductCardProps {
   imageSrc: string;
@@ -9,7 +10,7 @@ interface ProductCardProps {
   price: string;
   description: string;
   stockQuantity: number;
-  slug: string; // تغییر در اینجا: به جای productLink از slug استفاده می‌کنیم
+  slug: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -18,43 +19,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
   price,
   description,
   stockQuantity,
-  slug, // دریافت slug
+  slug,
 }) => {
-  const focusRing =
-    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
+  // const focusRing = "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500";
   const isAvailable = stockQuantity > 0;
-
-  // ساخت لینک با استفاده از slug
   const productHref = `/products/${slug}`;
 
   return (
     <div
-      className={`group relative flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden 
-                  shadow-sm hover:shadow-2xl transition-all duration-300 ease-in-out 
-                  transform hover:-translate-y-1 ${focusRing}`}
-      tabIndex={0}
+      className={`group relative flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden 
+                  shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out 
+                  transform hover:-translate-y-1`}
     >
-      <Link
-        href={productHref}
-        className="block"
-      >
+      <Link href={productHref} className="block">
         <div className="w-full aspect-square bg-gray-100 overflow-hidden">
           <Image
             src={imageSrc}
             alt={name}
-            width={400}
-            height={400}
+            width={300}
+            height={300}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
           />
         </div>
       </Link>
-
-      <div className="p-4 flex flex-col flex-grow">
-        <Link
-          href={productHref}
-          className="block mb-2"
-        >
-          <h3 className="text-lg font-semibold text-gray-800 group-hover:text-teal-700 transition-colors truncate">
+      
+      <div className="p-3 flex flex-col flex-grow"> {/* کاهش پدینگ */}
+        <Link href={productHref} className="block mb-2">
+          <h3 className="text-base font-semibold text-gray-800 group-hover:text-teal-700 transition-colors truncate h-6"> {/* کاهش اندازه فونت */}
             {name}
           </h3>
         </Link>
@@ -63,25 +54,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {description}
         </p>
 
-        <div className="mt-auto">
-          <div className="flex items-center text-teal-600 mb-2">
-            <Tag
-              size={18}
-              className="ml-2 opacity-75"
-            />
-            <p className="text-lg font-bold">{price}</p>
+        <div className="mt-auto pt-2 border-t border-gray-100">
+          <div className="flex items-center text-teal-600 mb-1.5">
+            <Tag size={16} className="ml-1.5 opacity-80" /> {/* کاهش اندازه آیکون */}
+            <p className="text-sm font-bold"> {/* کاهش اندازه فونت */}
+              {price}
+            </p>
           </div>
-          <div
-            className={`flex items-center text-sm ${
-              isAvailable ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            <PackageCheck
-              size={18}
-              className="ml-2 opacity-75"
-            />
+          <div className={`flex items-center text-xs ${isAvailable ? 'text-green-600' : 'text-red-600'}`}>
+            <PackageCheck size={16} className="ml-1.5 opacity-80" /> {/* کاهش اندازه آیکون */}
             <span>
-              {isAvailable ? `موجودی: ${stockQuantity} عدد` : "ناموجود"}
+              {isAvailable ? `موجودی: ${stockQuantity} عدد` : 'ناموجود'}
             </span>
           </div>
         </div>

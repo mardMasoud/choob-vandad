@@ -100,7 +100,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
                     }`}
         aria-disabled={!canGoPrevious}
         tabIndex={!canGoPrevious ? -1 : undefined}
-        scroll={false}
+        // scroll={false}
       >
         <ChevronRight size={18} />
         <span className="sr-only">صفحه قبلی</span>
@@ -127,7 +127,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
                               : `bg-white text-gray-700 hover:bg-gray-100 border ${focusRing}`
                           }`}
               aria-current={currentPage === page ? "page" : undefined}
-              scroll={false}
+              // scroll={false}
             >
               {page}
             </Link>
@@ -146,7 +146,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
                     }`}
         aria-disabled={!canGoNext}
         tabIndex={!canGoNext ? -1 : undefined}
-        scroll={false}
+        // scroll={false}
       >
         <ChevronLeft size={18} />
         <span className="sr-only">صفحه بعدی</span>
