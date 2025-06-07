@@ -1,16 +1,19 @@
 // src/components/HomePageClient.tsx
-"use client"; // این کامپوننت به دلیل HeroSlider (Swiper) کلاینت است
+'use client';
 
-import HeroSection from "@/components/HeroSection";
-import IntroAndAdvantagesSection from "@/components/IntroAndAdvantagesSection";
-import ProductsSection from "@/components/ProductsSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import HeroSection from '@/components/HeroSection';
+import IntroAndAdvantagesSection from '@/components/IntroAndAdvantagesSection';
+import ProductsSection from '@/components/ProductsSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
-// تعریف پراپ‌هایی که این کامپوننت از صفحه اصلی (Server Component) دریافت می‌کند
+// ۱. وارد کردن Typeهای دقیق از فایل مشترک
+import type { Advantage, Product, Testimonial } from '@/lib/types';
+
+// ۲. تعریف پراپ‌ها با استفاده از Typeهای وارد شده
 interface HomePageClientProps {
-  advantagesData: any[]; // برای سادگی فعلاً any، بهتر است نوع دقیق تعریف شود
-  productsData: any[];
-  testimonialsData: any[];
+  advantagesData: Advantage[];
+  productsData: Product[];
+  testimonialsData: Testimonial[];
 }
 
 const HomePageClient: React.FC<HomePageClientProps> = ({

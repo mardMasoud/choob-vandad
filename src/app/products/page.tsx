@@ -1,43 +1,41 @@
 // src/app/products/page.tsx
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import ProductCard from "@/components/ProductCard";
-import PaginationControls from "@/components/PaginationControls";
-import { getPaginatedProductsAction } from "@/lib/actions";
+import { supabase } from "@/lib/supabaseClient";
 
-interface Product {
-  id: number;
-  name: string;
-  description: string | null;
-  price: number | null;
-  image_src: string;
-  stock_quantity: number;
-  slug: string | null;
+import PaginationControls from "@/components/PaginationControls";
+
+
+export const dynamic = 'force-dynamic';
+
+interface ProductsPageProps {
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 const PRODUCTS_PER_PAGE = 12;
 
-export default function ProductsPage() {
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") ?? "1";
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const page = searchParams?.['page'] ?? '1';
   const currentPage = Math.max(Number(page), 1);
+  const offset = (currentPage - 1) * PRODUCTS_PER_PAGE;
 
-  const { data, isLoading, isError, error, isPlaceholderData } = useQuery({
-    // isPlaceholderData را هم اضافه می‌کنیم
-    queryKey: ["products", currentPage],
-    queryFn: () =>
-      getPaginatedProductsAction({
-        page: currentPage,
-        limit: PRODUCTS_PER_PAGE,
-      }),
-    // تغییر در اینجا: استفاده از placeholderData به جای keepPreviousData
-    placeholderData: (previousData) => previousData,
-  });
+  // واکشی داده‌ها
+  const { data: products, error: productsError } = await supabase
+    .from("products")
+    .select("*")
+    .order("name", { ascending: true })
+    .range(offset, offset + PRODUCTS_PER_PAGE - 1);
 
-  const products = data?.products;
-  const totalProducts = data?.count;
+  const { count: totalProducts, error: countError } = await supabase
+    .from("products")
+    .select("*", { count: "exact", head: true });
+
+  // اگر در هر یک از کوئری‌ها خطایی رخ داد، یک آرایه خالی برای محصولات برگردانده می‌شود
+  // و کامپوننت به جای کرش کردن، پیام خطا را نمایش می‌دهد.
+  if (productsError || countError) {
+    console.error("Error fetching data for products page:", productsError || countError);
+    // شما می‌توانید در اینجا یک صفحه خطای کامل‌تر را رندر کنید
+  }
+
   const totalPages = Math.ceil((totalProducts || 0) / PRODUCTS_PER_PAGE);
 
   return (
@@ -48,52 +46,43 @@ export default function ProductsPage() {
             همه محصولات
           </h1>
           <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto">
-            جدیدترین و باکیفیت‌ترین محصولات چوبی را در &quot;چوب ونداد&quot;
-            بیابید.
+            جدیدترین و باکیفیت‌ترین محصولات چوبی را در &quot;چوب ونداد&quot; بیابید.
           </p>
         </header>
-
-        {/* اگر isLoading است و داده placeholder نداریم، لودینگ را نشان بده */}
-        {isLoading && !isPlaceholderData ? (
-          <div className="text-center py-20">در حال بارگذاری محصولات...</div>
-        ) : isError ? (
-          <div className="text-center py-20 text-red-500">
-            خطا در بارگذاری محصولات: {error.message}
-          </div>
-        ) : !products || products.length === 0 ? (
-          <div className="text-center py-20 text-gray-600">
-            محصولی برای نمایش یافت نشد.
+        
+        {/* گارد محافظ: ابتدا وجود products را بررسی می‌کنیم */}
+        {products && products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[500px]">
+            {products.map((product) => ( // در اینجا products دیگر undefined نخواهد بود
+              <ProductCard
+                key={product.id}
+                imageSrc={product.image_src}
+                name={product.name}
+                price={
+                  product.price
+                    ? `${product.price.toLocaleString("fa-IR")} تومان`
+                    : "تماس بگیرید"
+                }
+                description={product.description || "توضیحات موجود نیست."}
+                stockQuantity={product.stock_quantity}
+                slug={product.slug || product.id.toString()}
+              />
+            ))}
           </div>
         ) : (
-          <>
-            {/* یک استایل برای زمانی که داده‌ها در حال لود شدن در پس‌زمینه هستند */}
-            <div
-              className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[500px] 
-                            ${
-                              isPlaceholderData
-                                ? "opacity-50 transition-opacity duration-300"
-                                : "opacity-100"
-                            }`}
-            >
-              {products.map((product: Product) => (
-                <ProductCard
-                  key={product.id}
-                  imageSrc={product.image_src}
-                  name={product.name}
-                  price={
-                    product.price
-                      ? `${product.price.toLocaleString("fa-IR")} تومان`
-                      : "تماس بگیرید"
-                  }
-                  description={product.description || "توضیحات موجود نیست."}
-                  stockQuantity={product.stock_quantity}
-                  slug={product.slug || product.id.toString()}
-                />
-              ))}
-            </div>
-            <PaginationControls totalPages={totalPages} />
-          </>
+          // اگر خطایی رخ داده باشد یا محصولی نباشد، این پیام نمایش داده می‌شود
+          <div className="text-center py-10">
+            <p className="text-lg text-gray-600">
+              {productsError || countError ? "خطا در بارگذاری محصولات." : "محصولی برای نمایش یافت نشد."}
+            </p>
+          </div>
         )}
+    
+        <div className="mt-16">
+          <PaginationControls
+            totalPages={totalPages}
+          />
+        </div>
       </div>
     </div>
   );

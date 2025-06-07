@@ -1,5 +1,5 @@
 // src/lib/actions.ts
-"use server";
+'use server';
 
 import { supabase } from "@/lib/supabaseClient";
 
@@ -48,12 +48,19 @@ export async function getPaginatedProductsAction({
       count: countResponse.count,
       error: null,
     };
-  } catch (err: any) {
+  } catch (err: unknown) { // Changed from any to unknown
     console.error("Error in getPaginatedProductsAction:", err);
+    
+    // Check if the error is an instance of Error to safely access its message
+    let errorMessage = "An unknown error occurred.";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     return {
       products: null,
       count: null,
-      error: err.message || "An unknown error occurred.",
+      error: errorMessage,
     };
   }
 }
