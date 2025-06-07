@@ -1,4 +1,3 @@
-// src/components/HeroSection.tsx
 "use client";
 
 import Image from "next/image";
@@ -6,13 +5,12 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
-// استایل‌های ضروری Swiper و ماژول‌ها
+// استایل‌های ضروری Swiper
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-// تعریف نوع برای هر آیتم تصویر در پراپ‌ها (اگر از خارج پاس داده شود)
-// برای این مثال، داده‌ها را داخل خود کامپوننت تعریف می‌کنیم
+// تعریف نوع برای هر آیتم اسلاید
 interface SlideData {
   src: string;
   alt: string;
@@ -22,9 +20,7 @@ interface SlideData {
   buttonLink: string;
 }
 
-// داده‌های مربوط به اسلایدر Hero Section
-// این داده‌ها را می‌توانید بعداً به عنوان پراپ از page.tsx دریافت کنید
-// یا مستقیماً از یک API یا فایل داده دیگر در اینجا بخوانید.
+// داده‌های مربوط به اسلایدر با حذف اسلاید چهارم
 const slidesData: SlideData[] = [
   {
     src: "/image/hero/hero-slide-1.jpg",
@@ -51,14 +47,7 @@ const slidesData: SlideData[] = [
     buttonText: "تماس با ما",
     buttonLink: "/contact",
   },
-  {
-    src: "/image/hero/hero-slide-4.jpg",
-    alt: "اسلاید چهارم چوب ونداد",
-    title: "تنوع بی‌نظیر محصولات",
-    description: "انواع چوب‌های ساختمانی و دکوراتیو با بهترین قیمت.",
-    buttonText: "همه محصولات",
-    buttonLink: "/products",
-  },
+  // اسلاید چهارم از اینجا حذف شد
   {
     src: "/image/hero/hero-slide-5.jpg",
     alt: "اسلاید پنجم چوب ونداد",
@@ -75,8 +64,6 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-[75vh] w-full">
-      {" "}
-      {/* ارتفاع را می‌توانید به عنوان پراپ هم دریافت کنید */}
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
         spaceBetween={0}
