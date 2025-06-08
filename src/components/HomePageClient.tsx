@@ -5,8 +5,9 @@ import HeroSection from '@/components/HeroSection';
 import IntroAndAdvantagesSection from '@/components/IntroAndAdvantagesSection';
 import ProductsSection from '@/components/ProductsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import FeaturedCategories from '@/components/FeaturedCategories'; // کامپوننت جدید
-import CtaSection from '@/components/CtaSection'; // کامپوننت جدید
+import FeaturedCategories from '@/components/FeaturedCategories';
+import CtaSection from '@/components/CtaSection';
+import PurchaseProcess from '@/components/PurchaseProcess'; // ۱. وارد کردن کامپوننت جدید
 
 import type { Advantage, Product, Testimonial, Category } from '@/lib/types';
 
@@ -14,23 +15,24 @@ interface HomePageClientProps {
   advantagesData: Advantage[];
   productsData: Product[];
   testimonialsData: Testimonial[];
-  categoriesData: Category[]; // پراپ جدید
+  categoriesData: Category[];
 }
 
 const HomePageClient: React.FC<HomePageClientProps> = ({
   advantagesData,
   productsData,
   testimonialsData,
-  categoriesData, // دریافت پراپ جدید
+  categoriesData,
 }) => {
   return (
     <>
       <HeroSection />
       <IntroAndAdvantagesSection advantages={advantagesData} />
-      <FeaturedCategories categories={categoriesData} /> {/* استفاده از کامپوننت جدید */}
+      <FeaturedCategories categories={categoriesData} />
       <ProductsSection products={productsData} />
+      <PurchaseProcess /> {/* ۲. استفاده از کامپوننت جدید */}
       <TestimonialsSection testimonials={testimonialsData} />
-      <CtaSection /> {/* استفاده از کامپوننت جدید */}
+      <CtaSection />
     </>
   );
 };
